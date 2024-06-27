@@ -58,7 +58,7 @@ const Model = () => {
 				<h1 className="section-heading" id="heading">
 					Take a closer look.
 				</h1>
-				<div className="flex flex-col item-center mt-2">
+				<div className="flex flex-col item-center ">
 					<div className="w-full h-[75vh] md:h-[90vh] overflow-hidden">
 						<ModelView
 							index={1}
