@@ -1,13 +1,14 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import ModelView from "./ModelView";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { yellowImg } from "../utils";
 
 import * as THREE from "three";
 import { Canvas } from "@react-three/fiber";
 import { View } from "@react-three/drei";
 import { models, sizes } from "../constants";
+import { animateWithGsapTimeline } from "../utils/animations";
 
 const Model = () => {
 	const [size, setSize] = useState("small");
@@ -29,6 +30,24 @@ const Model = () => {
 	const [smallRotation, setSmallRotation] = useState(0);
 	const [largeRotation, setLargeRotation] = useState(0);
 
+	const tl = gsap.timeline();
+
+	useEffect(() => {
+		if (size === "large") {
+			animateWithGsapTimeline(tl, small, smallRotation, "#view1", "#view2", {
+				transform: "translateX(-100%)",
+				duration: 2,
+			});
+		}
+
+		if (size === "small") {
+			animateWithGsapTimeline(tl, large, largeRotation, "#view2", "#view1", {
+				transform: "translateX(0)",
+				duration: 2,
+			});
+		}
+	}, [size]);
+
 	useGSAP(() => {
 		gsap.to("#heading", { y: 0, opacity: 1 });
 	});
@@ -39,7 +58,7 @@ const Model = () => {
 				<h1 className="section-heading" id="heading">
 					Take a closer look.
 				</h1>
-				<div className="flex flex-col item-center mt-5">
+				<div className="flex flex-col item-center mt-2">
 					<div className="w-full h-[75vh] md:h-[90vh] overflow-hidden">
 						<ModelView
 							index={1}
